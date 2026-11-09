@@ -1,8 +1,8 @@
-import { LitElement, html, css } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
-import heroImg from './assets/hero.png'
-import litLogo from './assets/lit.svg'
-import viteLogo from './assets/vite.svg'
+import {LitElement, html, css} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
+import heroImg from './assets/hero.png';
+import litLogo from './assets/lit.svg';
+import viteLogo from './assets/vite.svg';
 
 declare global {
   interface Window {
@@ -21,10 +21,10 @@ export class MyElement extends LitElement {
   /**
    * The number of times the button has been clicked.
    */
-  @property({ type: Number })
-  count = 0
+  @property({type: Number})
+  count = 0;
 
-  @property({ type: String }) visits = 'Loading...';
+  @property({type: String}) visits = 'Loading...';
 
   async connectedCallback() {
     super.connectedCallback();
@@ -34,7 +34,7 @@ export class MyElement extends LitElement {
       this.visits = count;
     }
 
-    window.addEventListener('myCustomEvent', (event) => {
+    window.addEventListener('myCustomEvent', event => {
       console.log(event);
       this.visits += 1;
     });
@@ -135,11 +135,11 @@ export class MyElement extends LitElement {
 
       <div class="ticks"></div>
       <section id="spacer"></section>
-    `
+    `;
   }
 
   private _onClick() {
-    this.count++
+    this.count++;
   }
 
   static styles = css`
@@ -451,11 +451,11 @@ export class MyElement extends LitElement {
         height: 48px;
       }
     }
-  `
+  `;
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'my-element': MyElement
+    'my-element': MyElement;
   }
 }

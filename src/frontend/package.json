@@ -6,15 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "style:check": "prettier --check \"**/*.ts\"",
+    "test": "vitest run",
     "preview": "vite preview"
   },
   "dependencies": {
     "lit": "^3.3.3"
   },
   "devDependencies": {
+    "jsdom": "^31.0.0",
+    "prettier": "^3.9.10",
     "typescript": "~7.0.2",
     "vite": "^8.3.6",
-    "vite-plugin-singlefile": "^2.3.4"
+    "vite-plugin-singlefile": "^2.3.4",
+    "vitest": "^5.1.0"
   },
   "allowScripts": {
     "fsevents@2.3.3": true

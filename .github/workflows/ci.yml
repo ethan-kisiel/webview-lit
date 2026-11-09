@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - run: npm ci
+        working-directory: src/frontend
+
+      - run: npm run style:check
+        working-directory: src/frontend
+
+      - run: npm test
+        working-directory: src/frontend
+
+      - run: npm run build
+        working-directory: src/frontend
+
+  backend:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Google C++ style check
+        run: |
+          find src/backend -type f \( -name '*.cpp' -o -name '*.h' -o -name '*.hpp' \) -print0 \
+            | xargs -0 xcrun clang-format --dry-run --Werror --style=file
+
+      - name: Configure
+        run: cmake -S src/backend -B build -DBUILD_TESTING=ON
+
+      - name: Build
+        run: cmake --build build --parallel 2
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

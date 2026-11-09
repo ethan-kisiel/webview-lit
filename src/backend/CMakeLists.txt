@@ -5,6 +5,7 @@ project(MyWebviewApp CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(CTest)
 include(FetchContent)
 
 # 1. Fetch webview library
@@ -39,4 +40,19 @@ target_link_libraries(MyWebviewApp PRIVATE
 # macOS GUI apps require linking WebKit framework explicitly
 if(APPLE)
     target_link_libraries(MyWebviewApp PRIVATE "-framework WebKit")
+endif()
+
+if(BUILD_TESTING)
+    FetchContent_Declare(
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG v1.15.2
+    )
+    FetchContent_MakeAvailable(googletest)
+
+    add_executable(MyWebviewAppTests tests/test_infrastructure.cpp)
+    target_link_libraries(MyWebviewAppTests PRIVATE GTest::gtest_main)
+
+    include(GoogleTest)
+    gtest_discover_tests(MyWebviewAppTests)
 endif()
