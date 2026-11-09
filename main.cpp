@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <filesystem>
+#include <thread>
 #include <sqlite_orm/sqlite_orm.h>
 #include "webview.h"
 
@@ -20,6 +21,13 @@ inline auto create_storage(const std::string& filename) {
             make_column("visits", &User::visits)
         )
     );
+}
+
+void background_worker(webview::webview& w) {
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+        w.eval("window.dispatchEvent(new CustomEvent('myCustomEvent', {detail: { key: 'value' }}));");
+    }
 }
 
 int main() {
@@ -58,7 +66,11 @@ int main() {
     w.set_title("C++ Webview + SQLite + Lit Frontend");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
     w.navigate(url.c_str());
+    std::thread t1(background_worker, std::ref(w));
+    t1.detach();
+
     w.run();
 
     return 0;
 }
+

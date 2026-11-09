@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit'
+import { LitElement, html, css } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import heroImg from './assets/hero.png'
 import litLogo from './assets/lit.svg'
@@ -33,6 +33,11 @@ export class MyElement extends LitElement {
       const count = await window.getVisitorCount();
       this.visits = count;
     }
+
+    window.addEventListener('myCustomEvent', (event) => {
+      console.log(event);
+      this.visits += 1;
+    });
   }
 
   render() {
