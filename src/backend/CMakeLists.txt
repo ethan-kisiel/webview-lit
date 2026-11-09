@@ -27,7 +27,7 @@ FetchContent_MakeAvailable(sqlite_orm)
 find_package(SQLite3 REQUIRED)
 
 # 4. Define your executable target
-add_executable(MyWebviewApp main.cpp)
+add_executable(MyWebviewApp src/main.cpp)
 
 # 5. Link libraries and native macOS frameworks
 target_link_libraries(MyWebviewApp PRIVATE
